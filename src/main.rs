@@ -1,3 +1,10 @@
+mod tui;
+mod game;
+mod board;
+
+
 fn main() {
-    println!("Hello, world!");
+    tui::start_screen();
+    game::init_game();
 }
+
