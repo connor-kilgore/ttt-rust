@@ -24,7 +24,11 @@ pub fn get_user_move(input: String, board: &Board) -> i32{
     let upper: i32 = (board.board.len() - 1) as i32;
     match num_input {
         num if (0..=upper).contains(&num) => {
-            return num_input;
+            if is_taken(board, num as usize){
+                println!("Spot taken.");
+                return get_user_move(get_input(format!("Enter a number between 0-{}: ", upper)), board);
+            } else {return num_input;}
+            
         }
         _ => {
             println!("Invalid input.");
