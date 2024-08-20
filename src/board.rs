@@ -53,7 +53,7 @@ pub fn is_taken(board: &Board, index: usize) -> bool {
     return board.board[index] != ' ';
 }
 
-pub fn place_value_into_board(old_board: Board, index: usize, val: char) -> Board {
+pub fn place_value_into_board(old_board: &Board, index: usize, val: char) -> Board {
     let mut new_board = old_board.board.clone();
     new_board[index] = val;
     Board {
@@ -132,9 +132,9 @@ mod test {
     fn place_value_into_board_test() {
         let mut board = new_board(2);
         assert_eq!(board.board, [' ', ' ', ' ', ' ']);
-        board = place_value_into_board(board, 0, 'X');
+        board = place_value_into_board(&board, 0, 'X');
         assert_eq!(board.board, ['X', ' ', ' ', ' ']);
-        board = place_value_into_board(board, 2, 'O');
+        board = place_value_into_board(&board, 2, 'O');
         assert_eq!(board.board, ['X', ' ', 'O', ' ']);
     }
 }

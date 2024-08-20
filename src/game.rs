@@ -1,26 +1,35 @@
 use crate::board;
-use crate::tui;
+use crate::player;
 
-pub fn play_round(board: board::Board, token: char) -> board::Board {
-    let upper: i32 = (board.board.len() - 1) as i32;
-    tui::print_board(&board);
-    let index = tui::get_user_move(tui::get_input(format!("Enter a number between 0-{}: ", upper)), &board);
-    return board::place_value_into_board(board, index as usize, token);
+pub struct Game {
+    pub board: board::Board,
+    pub round: i32,
+    pub player_one: player::Player,
+    pub player_two: player::Player,
 }
 
-pub fn run_game(board: board::Board) {
-    let mut current_board = board;
-    let mut round = 0;
-    loop {
-        let token: char;
-        if round % 2 == 0 { token = 'X'; } else { token = 'O'; }
-        current_board = play_round(current_board, token);
-        round += 1;
+pub fn default_game() -> Game {
+    Game {
+        board: board::new_board(3),
+        round: 0,
+        player_one: player::new_player('X'),
+        player_two: player::new_bot('O'),
     }
 }
 
-// TODO: give it a default config
-pub fn init_game() {
-    let board = board::new_board(3);
-    run_game(board);
+#[cfg(test)]
+mod test {
+    use super::*;
+    
+    #[test]
+    fn game_structure() {
+        let game = default_game();
+        assert_eq!(3, game.board.side_len);
+        assert_eq!(9, game.board.board.len());
+        assert_eq!(0, game.round);
+        assert_eq!('X', game.player_one.token);
+        assert_eq!(true, game.player_one.is_human);
+        assert_eq!('O', game.player_two.token);
+        assert_eq!(false, game.player_two.is_human);
+    }
 }
