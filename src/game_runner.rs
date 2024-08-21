@@ -1,4 +1,3 @@
-use crate::board;
 use crate::tui;
 use crate::win_checker;
 use crate::game;
@@ -36,6 +35,7 @@ pub fn init_game() {
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::board;
 
     #[test]
     fn get_game_over_test_not_over() {

@@ -3,6 +3,7 @@ use colored::ColoredString;
 use colored::Colorize;
 use once_cell::sync::Lazy;
 
+#[derive(Clone)]
 pub struct Board {
     pub board: Vec<char>,
     pub side_len: i32,

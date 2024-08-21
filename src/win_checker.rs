@@ -50,6 +50,16 @@ pub fn get_winner(board: &board::Board) -> char {
     return *wins.iter().find(|&&x| x != ' ').unwrap_or(&' ');
 }
 
+fn is_board_full(board: &board::Board) -> bool {
+    return board.board.iter().all(|&c| c != ' ');
+}
+
+pub fn get_tie_or_winner(board: &board::Board) -> char {
+    let winner = get_winner(board);
+    if winner == ' ' && is_board_full(board) { return 'T'; }
+    else { return winner; }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -228,5 +238,53 @@ mod test {
             side_len: 3,
         };
         assert_eq!('O', get_winner(&board));
+    }
+
+    #[test]
+    fn get_tie_or_winner_is_ongoing() {
+        let board = board::new_board(3);
+        assert_eq!(' ', get_tie_or_winner(&board));
+    }
+
+    #[test]
+    fn get_tie_or_winner_x_win() {
+        let board = board::Board {
+            board: vec!['X', 'X', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
+            side_len: 3,
+        };
+        assert_eq!('X', get_tie_or_winner(&board));
+    }
+
+    #[test]
+    fn get_tie_or_winner_o_win() {
+        let board = board::Board {
+            board: vec!['O', ' ', ' ', 'O', ' ', ' ', 'O', ' ', ' '],
+            side_len: 3,
+        };
+        assert_eq!('O', get_tie_or_winner(&board));
+    }
+
+    #[test]
+    fn get_tie_or_winner_is_tie() {
+        let board = board::Board {
+            board: vec![
+                'X', 'O', 'O',
+                'O', 'X', 'X', 
+                'X', 'X', 'O'],
+            side_len: 3,
+        };
+        assert_eq!('T', get_tie_or_winner(&board));
+    }
+
+    #[test]
+    fn is_board_full_test_false() {
+        let board = board::new_board(3);
+        assert_eq!(false, is_board_full(&board));
+    }
+
+    #[test]
+    fn is_board_full_test_true() {
+        let board = board::Board{board: vec!['X'; 9], side_len: 3};
+        assert_eq!(true, is_board_full(&board));
     }
 }

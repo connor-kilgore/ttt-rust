@@ -6,6 +6,7 @@ mod win_checker;
 mod token;
 mod player;
 mod turn_handler;
+mod bot;
 
 fn main() {
     tui::start_screen();
