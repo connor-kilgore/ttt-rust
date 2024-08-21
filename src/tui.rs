@@ -1,4 +1,6 @@
 use crate::board::*;
+use crate::game;
+use crate::player;
 use std::io::{self, Write};
 
 pub const START_SCREEN_MSG: &str = "\n\n############################\n## UNBEATABLE TIC-TAC-TOE ##\n############################\n\n";
@@ -9,6 +11,23 @@ pub fn start_screen(){
 
 pub fn print_board(board: &Board){
     println!("{}", board.to_string());
+}
+
+fn player_turn_str(round: i32) -> String{
+    return format!("=== PLAYER {} == ROUND {} ===\n", player::current_player_str(round), round);
+}
+
+pub fn print_game_round(game: &game::Game) {
+    println!("{}", player_turn_str(game.round));
+    print_board(&game.board);
+}
+
+fn end_condition_str(winner: char) -> String {
+    return format!("=== {} IS THE WINNER! ===\n", player::player_by_token_str(winner));
+}
+
+pub fn print_end_condition(winner: char) {
+    println!("{}", end_condition_str(winner));
 }
 
 pub fn get_input(prompt: String) -> String{
@@ -52,5 +71,21 @@ mod test {
         assert_eq!(get_user_move("0".to_string(), &board), 0);
         assert_eq!(get_user_move("1".to_string(), &board), 1);
         assert_eq!(get_user_move("8".to_string(), &board), 8);
+    }
+
+    #[test]
+    fn player_turn_str_test() {
+        assert_eq!("=== PLAYER ONE == ROUND 0 ===\n", player_turn_str(0));
+        assert_eq!("=== PLAYER ONE == ROUND 6 ===\n", player_turn_str(6));
+        assert_eq!("=== PLAYER TWO == ROUND 1 ===\n", player_turn_str(1));
+        assert_eq!("=== PLAYER TWO == ROUND 7 ===\n", player_turn_str(7));
+    }
+
+    #[test]
+    fn end_condition_str_test() {
+        assert_eq!("=== NOBODY IS THE WINNER! ===\n", end_condition_str(' '));
+        assert_eq!("=== NOBODY IS THE WINNER! ===\n", end_condition_str('Y'));
+        assert_eq!("=== PLAYER ONE IS THE WINNER! ===\n", end_condition_str('X'));
+        assert_eq!("=== PLAYER TWO IS THE WINNER! ===\n", end_condition_str('O'));
     }
 }

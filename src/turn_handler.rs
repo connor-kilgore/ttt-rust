@@ -28,7 +28,6 @@ pub fn next_player(game: &Game) -> Player {
 pub fn play_next_turn(mut game: Game) -> Game {
     let player = &next_player(&game);
     game = play_turn(game, player);
-    game.round += 1;
     return game;
 }
 
