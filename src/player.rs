@@ -6,14 +6,14 @@ pub struct Player {
 
 pub fn new_player(token: char) -> Player {
     Player {
-        token: token,
+        token,
         is_human: true,
     }
 }
 
 pub fn new_bot(token: char) -> Player {
     Player {
-        token: token,
+        token,
         is_human: false,
     }
 }

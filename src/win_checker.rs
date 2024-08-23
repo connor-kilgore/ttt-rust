@@ -56,8 +56,8 @@ fn is_board_full(board: &board::Board) -> bool {
 
 pub fn get_tie_or_winner(board: &board::Board) -> char {
     let winner = get_winner(board);
-    if winner == ' ' && is_board_full(board) { return 'T'; }
-    else { return winner; }
+    if winner == ' ' && is_board_full(board) { 'T' }
+    else { winner }
 }
 
 #[cfg(test)]
