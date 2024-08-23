@@ -16,12 +16,12 @@ fn get_end_score(win_token: char, bot_token: char, depth: i32, board_size: i32) 
 }
 
 fn is_bot_turn(depth: i32) -> bool {
-    return depth % 2 == 0;
+    depth % 2 == 0
 }
 
 fn current_turn_token(bot_token: char, depth: i32) -> char{
-    if is_bot_turn(depth) { return bot_token; }
-    else { return token::other_token(bot_token); }
+    if is_bot_turn(depth) { bot_token }
+    else { token::other_token(bot_token) }
 }
 
 fn max_move(moves: Vec<Move>) -> Move {
@@ -31,7 +31,7 @@ fn max_move(moves: Vec<Move>) -> Move {
             max = &moves[i];
         }
     }
-    return max.clone();
+    max.clone()
 }
 
 fn min_move(moves: Vec<Move>) -> Move {
@@ -41,12 +41,12 @@ fn min_move(moves: Vec<Move>) -> Move {
             min = &moves[i];
         }
     }
-    return min.clone();
+    min.clone()
 }
 
 fn best_move(moves: Vec<Move>, depth: i32) -> Move { 
-    if is_bot_turn(depth) { return max_move(moves); }
-    else { return min_move(moves); }
+    if is_bot_turn(depth) { max_move(moves) }
+    else { min_move(moves) }
 }
 
 fn mini_max(mut current_move: Move, token: char, depth: i32) -> Move {
@@ -67,14 +67,14 @@ fn mini_max(mut current_move: Move, token: char, depth: i32) -> Move {
             moves.push(new_move);
         }
     }
-    return best_move(moves, depth);
+    best_move(moves, depth)
 }
 
 pub fn play_turn(mut game: game::Game, token: char) -> game::Game {
     let current_move = Move{board: game.board, score: 0};
     let best_move = mini_max(current_move, token, 0);
     game.board = best_move.board;
-    return game;
+    game
 }
 
 #[cfg(test)]

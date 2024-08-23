@@ -17,7 +17,7 @@ static TOKENS: Lazy<HashMap<&'static str, ColoredString>> = Lazy::new(|| {
 });
 
 pub fn divider(side: i32) -> String {
-    return format!("{}\n", "=".repeat(((side * 3) + (side + 1)) as usize));
+    format!("{}\n", "=".repeat(((side * 3) + (side + 1)) as usize))
 }
 
 pub fn row(index: i32, board: &Board) -> String {
@@ -29,7 +29,7 @@ pub fn row(index: i32, board: &Board) -> String {
         if token == " " {pr_token = format!("{}", i).white()} else {pr_token = TOKENS.get(token.as_str()).unwrap().clone()};
         row_str = format!("{}{}{}", row_str, pr_token, " | ");
     }
-    return format!("{}\n", row_str);
+    format!("{}\n", row_str)
 }
 
 impl ToString for Board {
@@ -39,7 +39,7 @@ impl ToString for Board {
         for i in 0..self.side_len {
             board_str = format!("{}{}{}", board_str, row(i * self.side_len, self), divider(self.side_len));
         }
-        return board_str;
+        board_str
     }
 }
 

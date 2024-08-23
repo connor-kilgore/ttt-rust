@@ -2,7 +2,11 @@ use crate::board::*;
 use crate::{game};
 use crate::player;
 use crate::ui;
-use std::io::{self, Write};
+
+#[cfg(not(test))]
+use std::io;
+#[cfg(not(test))]
+use std::io::Write;
 
 pub struct Tui;
 
@@ -20,6 +24,12 @@ fn end_condition_str(winner: char) -> String {
     format!("=== {} IS THE WINNER! ===\n", player::player_by_token_str(winner))
 }
 
+#[cfg(test)]
+pub fn get_input(_prompt: String) -> String{
+    "1".to_string()
+}
+
+#[cfg(not(test))]
 pub fn get_input(prompt: String) -> String{
     println!("{}", prompt);
     let mut input = String::new();
@@ -65,6 +75,7 @@ impl ui::Ui for Tui {
 
 #[cfg(test)]
 mod test {
+    use crate::ui::Ui;
     use super::*;
     
     #[test]
@@ -72,13 +83,12 @@ mod test {
         assert!(START_SCREEN_MSG.contains("UNBEATABLE TIC-TAC-TOE"));
     }
 
-    // #[test]
-    // fn get_user_move_test() {
-    //     let board = new_board(3);
-    //     assert_eq!(get_user_move(&board), 0);
-    //     assert_eq!(get_user_move(&board), 1);
-    //     assert_eq!(get_user_move(&board), 8);
-    // }
+    #[test]
+    fn get_user_move_test() {
+        let tui = Tui;
+        let board = new_board(3);
+        assert_eq!(tui.get_user_move(&board), 1);
+    }
 
     #[test]
     fn player_turn_str_test() {
